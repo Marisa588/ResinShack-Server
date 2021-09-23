@@ -37,10 +37,10 @@ router.post('/', validateJWT, async (req, res) => {
 });
 
 // edit a product 
-router.put("/:id", validateJWT, async (req, res) => {
+router.put("/update/:id", validateJWT, async (req, res) => {
     const { name, description, price, imageUrl } = req.body.product;
     const productId = req.params.id;
-    //const { id } = req.user;
+    // const { id } = req.user;
 
     const query = {
         where: {

@@ -1,8 +1,11 @@
-const { DataTypes } = require("sequelize")
-const db = require("../db")
+const { DataTypes } = require('sequelize')
+const db = require('../db')
 
-const Favorite = db.define("favorite", {
-  
+const Favorite = db.define('favorite', {
+    username: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -20,10 +23,7 @@ const Favorite = db.define("favorite", {
         allowNull: true,
         defaultValue: "",
     },
-    owner_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
+    
 })
 
 module.exports = Favorite

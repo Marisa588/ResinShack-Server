@@ -1,18 +1,18 @@
 const Express = require("express");
 const router = Express.Router();
 const { FavoriteModel } = require("../models");
-const Favorite = require("../models/favorite")
+const favorite = require("../models/favorite")
 const validateJWT = require("../middleware/validate-jwt");
 
 
 // get fave posts
 router.get("/favorite", validateJWT, async (req, res) => {
-    const { id } = req.user.favorite;
-    
+    const { username } = req.body.favorite;
+
     try {
         const favoriteProducts = await FavoriteModel.findAll({
             where: {
-                owner_id: id
+                username: "username"
             }
         });
         res.status(200).json(favoriteProducts);
@@ -21,16 +21,16 @@ router.get("/favorite", validateJWT, async (req, res) => {
     }
 });
 
-// post a product 
+// post a product
 router.post('/', validateJWT, async (req, res) => {
     const { name, description, price, imageUrl } = req.body.product;
-    const { id } = req.user.favorite;
+    const { username } = req.favorite;
     const productEntry = {
         name,
         description,
         price,
         imageUrl,
-        owner_id: id
+        username
     }
     try {
         const newProduct = await FavoriteModel.create(productEntry);
@@ -44,11 +44,11 @@ router.post('/', validateJWT, async (req, res) => {
 // delete a product
 router.delete("/:id", validateJWT, async (req, res) => {
     const productId = req.params.id;
-    const { id } = req.user.favorite;
+    //const { id } = req.user.favorite;
     try {
         const query = {
             where: {
-                owner_id: id,
+                username: username,
                 id: productId
             }
         }

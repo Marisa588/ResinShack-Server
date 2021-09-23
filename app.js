@@ -1,11 +1,13 @@
 require("dotenv").config();
 const Express = require("express")
 const app = Express()
-
 const dbConnection = require("./db");
-
 const controllers = require('./controllers');
 // const upload = require("./middleware/multer");
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
 
 app.use(Express.json());
 
@@ -22,6 +24,25 @@ app.use("/favorite", controllers.favoriteController)
 //     coverName = res.req.file.filename
 //     res.send(productPic)
 // })
+
+
+//admin view
+// app.use('/admin',(req,res) => {
+//     res.send('Admin Page')
+// })
+
+// basic user view
+// app.use('/role', (req,res => {
+//     res.send('role')
+// }))
+
+// function setUser(req, res, next) {
+//     const userId = req.body.userID
+//     if (userId) {
+//         req.user = users.find(user =>user.id === userId)
+//     }
+//     next()
+// }
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())

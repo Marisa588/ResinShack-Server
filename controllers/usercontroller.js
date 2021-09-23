@@ -1,38 +1,40 @@
-const router = require("express").Router();
-const { UserModel } = require("../models");
-const { UniqueConstraintError } = require("sequelize/lib/errors");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const router = require('express').Router();
+const { UserModel } = require('../models');
+const { UniqueConstraintError } = require('sequelize/lib/errors');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+// const { role } = require('../middleware/role')
 
-router.post("/register", async (req, res) => {
-    let { username, password } = req.body.user;
+router.post('/register', async (req, res) => {
+    let { username, password, role } = req.body.user;
     try {
         const User = await UserModel.create({
             username,
             password: bcrypt.hashSync(password, 13),
+            role
         });
 
         let token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
         res.status(201).json({
-            message: "User successfully registered",
+            message: 'User successfully registered',
             user: User,
             sessionToken: token
         });
     } catch (err) {
         if (err instanceof UniqueConstraintError) {
             res.status(409).json({
-                message: "Username already in use"
+                message: 'Username already in use'
             });
         } else {
             res.status(500).json({
-                message: "Failed to register user",
+                message: 'Failed to register user'
             });
         }
     } 
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
     let { username, password } = req.body.user;
 
     try {
@@ -44,12 +46,13 @@ router.post("/login", async (req, res) => {
         
         if (loginUser) {
 
-            let passwordComparison = await bcrypt.compare(password, loginUser.password);
+            let passwordComparison = await bcrypt.compareSync(password, loginUser.password);
 
             if (passwordComparison) {
 
             let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
-
+            
+            
             res.status(200).json({
                 user: loginUser,
                 message: "User successfully logged in",
@@ -57,20 +60,29 @@ router.post("/login", async (req, res) => {
             });
         } else {
             res.status(401).json({
-                message: "Incorrect email or password"
+                message: "Incorrect username or password"
+            });
+        } 
+        } else {
+            res.status(401).json({
+                message: "Incorrect username or password"
             })
         }
 
-        } else {
-            res.status(401).json({
-                message: "Incorrect email or password"
-            });
-        }
-    } catch (error) {
+        } catch (error) {
         res.status(500).json({
-            message: "Failed to log user in"
+            message: error
         })
     }
+    // console.log(json);
 });
+
+// router.get('/auth',async (req, res, next) {
+//     if (req.user===null) {
+//         res.status
+//     }
+// })
+
+
 
 module.exports = router;
