@@ -6,13 +6,13 @@ const validateJWT = require("../middleware/validate-jwt");
 
 
 // get fave posts
-router.get("/favorite", validateJWT, async (req, res) => {
-    const { username } = req.body.favorite;
+router.get("/", validateJWT, async (req, res) => {
+    const { id } = req.user;
 
     try {
         const favoriteProducts = await FavoriteModel.findAll({
             where: {
-                username: "username"
+                owner_id: id
             }
         });
         res.status(200).json(favoriteProducts);
@@ -23,14 +23,15 @@ router.get("/favorite", validateJWT, async (req, res) => {
 
 // post a product
 router.post('/', validateJWT, async (req, res) => {
-    const { name, description, price, imageUrl } = req.body.product;
-    const { username } = req.favorite;
+    const { name, description, price, imageUrl, imageLink } = req.body.favorite;
+    const { id } = req.favorite;
     const productEntry = {
         name,
         description,
         price,
         imageUrl,
-        username
+        imageLink,
+        owner_id: id
     }
     try {
         const newProduct = await FavoriteModel.create(productEntry);
@@ -48,7 +49,6 @@ router.delete("/:id", validateJWT, async (req, res) => {
     try {
         const query = {
             where: {
-                username: username,
                 id: productId
             }
         }

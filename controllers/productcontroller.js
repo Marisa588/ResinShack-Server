@@ -14,18 +14,36 @@ router.get('/', async (req, res) => {
         res.status(500).json({error: err});
     }
 })
+//get favorite
+// router.get("/favorite", validateJWT, async (req, res) => {
+//     const { id } = req.user;
+    
+//     try {
+//         const userProducts = await ProductModel.findAll({
+//             where: {
+//                 owner_id: id
+//             }
+//         });
+//         res.status(200).json(userProducts);
+//     } catch (err) {
+//         res.status(500).json({ error: error });
+//     }
+// });
+
 
 
 
 // post a product 
 router.post('/', validateJWT, async (req, res) => {
-    const { name, description, price, imageUrl } = req.body.product;
+    const { name, description, price, imageUrl, imageLink } = req.body.product;
     //const { id } = req.user;
     const productEntry = {
         name,
         description,
         price,
         imageUrl,
+        imageLink,
+        // owner_id
     }
     try {
         const newProduct = await ProductModel.create(productEntry);
@@ -38,7 +56,7 @@ router.post('/', validateJWT, async (req, res) => {
 
 // edit a product 
 router.put("/update/:id", validateJWT, async (req, res) => {
-    const { name, description, price, imageUrl } = req.body.product;
+    const { name, description, price, imageUrl, imageLink } = req.body.product;
     const productId = req.params.id;
     // const { id } = req.user;
 
@@ -52,7 +70,8 @@ router.put("/update/:id", validateJWT, async (req, res) => {
         name: name,
         description: description,
         price: price,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
+        imageLink: imageLink
     };
     try {
         const update = await ProductModel.update(updatedProduct, query);

@@ -23,6 +23,15 @@ const Favorite = db.define('favorite', {
         allowNull: true,
         defaultValue: "",
     },
+    imageLink :{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "",
+    },
+    owner_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     
 })
 

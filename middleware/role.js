@@ -1,4 +1,5 @@
-module.exports ={
-    Admin: 'Admin',
-    }
-// export{};
+// module.exports ={
+//     Admin: 'Admin',
+//     User: 'User'
+//     }
+export{};

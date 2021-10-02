@@ -1,13 +1,14 @@
-function Admin(req, res, next) {
+// function Admin(req, res, next) {
     
-    if(req.user.role == "true") {
-        res.status(200)
-        return res.send('Welcome Admin')
-    } else {
-        return res.send('Welcome User')
-    }
-}
+//     if(req.user.role == "true") {
+//         res.status(200)
+//         return res.send('Welcome Admin')
+//     } else {
+//         return res.send('Welcome User')
+//     }
+// }
 
-module.exports = {
-    Admin
-}
+// module.exports = {
+//     Admin
+// }
+export {}

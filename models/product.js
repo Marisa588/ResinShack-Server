@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize")
 const db = require("../db")
 
-const Product = db.define("product", {
+const Products = db.define("products", {
 
     name: {
         type: DataTypes.STRING,
@@ -20,8 +20,13 @@ const Product = db.define("product", {
         allowNull: true,
         defaultValue: "",
     },
+    imageLink :{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "",
+    }
     
 
 })
 
-module.exports = Product
+module.exports = Products
