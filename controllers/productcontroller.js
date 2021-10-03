@@ -1,7 +1,7 @@
 const Express = require("express");
 const router = Express.Router();
 const { ProductModel } = require("../models");
-const Product = require("../models/product");
+const product = require("../models/product");
 const validateJWT = require("../middleware/validate-jwt");
 
 
@@ -14,36 +14,17 @@ router.get('/', async (req, res) => {
         res.status(500).json({error: err});
     }
 })
-//get favorite
-// router.get("/favorite", validateJWT, async (req, res) => {
-//     const { id } = req.user;
-    
-//     try {
-//         const userProducts = await ProductModel.findAll({
-//             where: {
-//                 owner_id: id
-//             }
-//         });
-//         res.status(200).json(userProducts);
-//     } catch (err) {
-//         res.status(500).json({ error: error });
-//     }
-// });
-
-
-
 
 // post a product 
 router.post('/', validateJWT, async (req, res) => {
     const { name, description, price, imageUrl, imageLink } = req.body.product;
-    //const { id } = req.user;
+    
     const productEntry = {
         name,
         description,
         price,
         imageUrl,
         imageLink,
-        // owner_id
     }
     try {
         const newProduct = await ProductModel.create(productEntry);
@@ -51,7 +32,6 @@ router.post('/', validateJWT, async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err });
     }
-    ProductModel.create(productEntry)
 });
 
 // edit a product 

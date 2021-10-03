@@ -4,10 +4,9 @@ const Express = require("express")
 const app = Express()
 const dbConnection = require("./db");
 const controllers = require('./controllers');
-// const Upload = require("./middleware/multer");
 const cloudinary = require("cloudinary").v2;
 console.log(cloudinary.config().cloud_name);
-// const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
 const multer = require("multer");
 const streamifier = require('streamifier');
 
@@ -49,17 +48,7 @@ app.post('/upload', fileUpload.single('imageUrl'), function (req, res, next) {
     }
     upload(req)
 })
-// app.post("/imageUrl", upload.single("imageUrl"), (req, res) => {
-//     console.log(req.file);
-//     productName = res.req.file.filename
-//     res.send(productName);
-// });
 
-// app.post("/productpic", upload.single("image"), (req, res) => {
-//     console.log(req.file)
-//     coverName = res.req.file.filename
-//     res.send(productPic)
-// })
 
 
 dbConnection.authenticate()

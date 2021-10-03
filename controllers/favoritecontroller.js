@@ -24,8 +24,8 @@ router.get("/", validateJWT, async (req, res) => {
 // post a product
 router.post('/', validateJWT, async (req, res) => {
     const { name, description, price, imageUrl, imageLink } = req.body.favorite;
-    const { id } = req.favorite;
-    const productEntry = {
+    const { id } = req.user;
+    const favoriteEntry = {
         name,
         description,
         price,
@@ -34,12 +34,11 @@ router.post('/', validateJWT, async (req, res) => {
         owner_id: id
     }
     try {
-        const newProduct = await FavoriteModel.create(productEntry);
-        res.status(200).json(newProduct);
+        const newFavorite = await FavoriteModel.create(favoriteEntry);
+        res.status(200).json(newFavorite);
     } catch (err) {
         res.status(500).json({ error: err });
     }
-    FavoriteModel.create(productEntry)
 });
 
 // delete a product
