@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize(`postgres://postgres:${process.env.DB_SECRET}@localhost:5432/Resin_Shack`)
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+})
 
 
 module.exports = sequelize

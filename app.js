@@ -19,6 +19,7 @@ app.use(Express.json());
 
 const fileUpload = multer()
 
+
 app.use(require('./middleware/headers'));
 
 app.use("/products", controllers.productController);
@@ -54,9 +55,9 @@ app.post('/upload', fileUpload.single('imageUrl'), function (req, res, next) {
 dbConnection.authenticate()
 .then(() => dbConnection.sync())
 .then(() => {
-    app.listen(3001, () => {
-        console.log(`[Server]: App is listening on 3001.`);
-    });
+    app.listen(process.env.PORT, () => {
+        console.log(`server is listening on port ${process.env.PORT}`)
+    })
 })
 .catch((err) => {
     console.log(`[Server]: Server crashed. Error = ${err}`);
