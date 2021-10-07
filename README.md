@@ -1,4 +1,5 @@
 # Julee's Resin Shop Server
+https://julees-resin-shack-client.herokuapp.com/
 
 MVC Server (Postgres, Express, Sequelize, Node)
 ## What am I?
